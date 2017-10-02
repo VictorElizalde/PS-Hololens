@@ -6,6 +6,7 @@ public class CubeColour : MonoBehaviour
 {
     private Color originalColour;
     private Vector3 originalVector;
+    private Quaternion originalPose;
 
     // Use this for initialization
     void Start()
@@ -15,6 +16,9 @@ public class CubeColour : MonoBehaviour
 
         originalColour = newColour;
         originalVector = this.transform.position;
+
+        originalPose = this.transform.rotation;
+        
     }
 
     // Update is called once per frame
@@ -44,5 +48,6 @@ public class CubeColour : MonoBehaviour
     public void OnResetBlock()
     {
         this.transform.position = originalVector;
+        transform.rotation = Quaternion.Slerp(transform.rotation, originalPose, 1.0f);
     }
 }

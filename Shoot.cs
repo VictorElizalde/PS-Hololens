@@ -4,7 +4,7 @@ using UnityEngine.VR.WSA.Input;
 public class Shoot : MonoBehaviour
 {
     GestureRecognizer recognizer;
-    public float ForceMagnitude = 300f;
+    public float ForceMagnitude = 5000f;
 
     private void ShootBall(InteractionSourceKind source, int tapCount, Ray headRay)
     {
