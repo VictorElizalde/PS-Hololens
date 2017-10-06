@@ -6,6 +6,26 @@ public class Shoot : MonoBehaviour
     GestureRecognizer recognizer;
     public float ForceMagnitude = 5000f;
 
+    AudioSource audioSource = null;
+    AudioClip shootClip = null;
+
+    // Use this for initialization
+    void Start()
+    {
+        recognizer = new GestureRecognizer();
+        recognizer.TappedEvent += ShootBall;
+        recognizer.StartCapturingGestures();
+
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.playOnAwake = false;
+        audioSource.spatialBlend = 1.0f;
+        audioSource.dopplerLevel = 0.0f;
+        audioSource.rolloffMode = AudioRolloffMode.Logarithmic;
+        audioSource.maxDistance = 20f;
+
+        shootClip = Resources.Load<AudioClip>("Footstep04");
+    }
+
     private void ShootBall(InteractionSourceKind source, int tapCount, Ray headRay)
     {
         var ball = GameObject.CreatePrimitive(PrimitiveType.Sphere);
@@ -23,14 +43,9 @@ public class Shoot : MonoBehaviour
         transformForward = Quaternion.AngleAxis(0, transform.right) * transformForward;
         // shoot !!
         rigidBody.AddForce(transformForward * ForceMagnitude);
-    }
 
-    // Use this for initialization
-    void Start()
-    {
-        recognizer = new GestureRecognizer();
-        recognizer.TappedEvent += ShootBall;
-        recognizer.StartCapturingGestures();
+        audioSource.clip = shootClip;
+        audioSource.Play();
     }
 
     public void OnShoot()
